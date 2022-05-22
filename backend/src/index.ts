@@ -8,5 +8,5 @@ const handleFork = () => {
     })
 }
 
-cluster.isMaster ? handleFork() : bootstrap()
+cluster.isPrimary ? handleFork() : bootstrap()
 

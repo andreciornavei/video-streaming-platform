@@ -1,0 +1,1 @@
+ffmpeg -i $1.mp4 -c:v libvpx -b:v 1M -c:a libvorbis $1.webm

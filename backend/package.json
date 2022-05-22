@@ -5,12 +5,19 @@
   "license": "MIT",
   "type": "module",
   "devDependencies": {
-    "@types/node": "12",
+    "@types/node": "16.11.36",
+    "@types/throttle": "^1.0.1",
     "ts-node": "^10.7.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.4"
   },
   "scripts": {
     "develop": "ts-node-dev --respawn --transpile-only --exit-child src/index.ts"
+  },
+  "engines": {
+    "node": "16.15.0"
+  },
+  "dependencies": {
+    "throttle": "^1.0.3"
   }
 }
