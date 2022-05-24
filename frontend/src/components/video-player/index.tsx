@@ -157,30 +157,53 @@ export const VideoPlayer = () => {
             ))
     }
 
-    React.useEffect(() => {
-        if (!playerRef) return
-        const player = playerRef.current
-        player.src = window.URL.createObjectURL(mediaSource);
-        const seekListener = player.addEventListener('seeked', () => console.log("seek"))
-        // const progressListener = player.addEventListener('progress', handleDownloadBuffer)
-        const timeUpdateListener = player.addEventListener('timeupdate', handleUpdateProgress)
-        // remove player listener
-        return () => {
-            if (player.removeListener) {
-                player.removeListener(seekListener)
-                // player.removeListener(progressListener)
-                player.removeListener(timeUpdateListener)
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // React.useEffect(() => {
+    //     if (!playerRef) return
+    //     const player = playerRef.current
+    //     player.src = window.URL.createObjectURL(mediaSource);
+    //     const seekListener = player.addEventListener('seeked', () => console.log("seek"))
+    //     // const progressListener = player.addEventListener('progress', handleDownloadBuffer)
+    //     const timeUpdateListener = player.addEventListener('timeupdate', handleUpdateProgress)
+    //     // remove player listener
+    //     return () => {
+    //         if (player.removeListener) {
+    //             player.removeListener(seekListener)
+    //             // player.removeListener(progressListener)
+    //             player.removeListener(timeUpdateListener)
+    //         }
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
+
+
+
+
+    // QUAL METODOLOGIA É A MELHOR?
+    
+    // 1) Utilizando MediaSource nós temos controle dos buffers
+    // sobre o player, porém o MediaSource possui limitação de codecs
+    // e é necessário implementar uma estratégia que melhora a qualidade
+    // do streaming
+
+    // 2) Utilizando a url do streaming direto no SRC, nós não temos controle
+    // do buffer sobre o player, porém o player já aplica uma estratégia
+    // de alocação dos buffers em fila, além de permitir outros codecs além do vp8
+    // + ainda é possível realizar o listening do player e do buffer alocado, o que
+    // apresenta o mesmo resultado do MediaSource.
+
+
+    // Conclusão.: Por enquanto, por questões de limitação de conhecimento,
+    // o mais indicado é utilizar o SRC que dispõe melhores resultados,
+    // podendo controlar o listener de buffer e gerenciar o controle do player
+    // via API como no MediaSource... sendo possível gerenciar a entrega do straming,
+    // pause, bloqueio etc pelo server-side.
 
     return (
         <VideoWrapper>
             <VideoCanvas>
                 <VideoContainer
                     ref={playerRef}
-                    // src="http://localhost:1337/streaming"
+                    src="http://localhost:1337/streaming"
                     controls={true}
                     autoPlay={true}
                 />
